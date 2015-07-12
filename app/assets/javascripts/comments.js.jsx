@@ -128,17 +128,30 @@ var CommentForm = React.createClass({
   }
 });
 
+var CommentButton = React.createClass({
+  render: function() {
+    return (
+      <button className="btn btn-primary">Add a Comment</button>
+    );
+  }
+});
+
 // This page:change event is a turbolinks thing. 
 $(function() {
   if ( $("#comment-list").length > 0 ) {
     React.renderComponent(
       <CommentBox url="comments.json" pollInterval={2000} />,
-      document.getElementById("comment-list")
+      $("#comment-list")[0]
+    );
+
+    React.renderComponent(
+      <CommentButton />,
+      $("#comment-form .button-container")[0]
     );
 
     React.renderComponent(
       <CommentForm />,
-      document.getElementById("comment-form")
+      $("#comment-form .form-container")[0]
     );
   }
 
