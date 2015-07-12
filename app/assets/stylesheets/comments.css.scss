@@ -1,0 +1,9 @@
+.comment-form-container {
+  transition: 3s all;
+  overflow: hidden;
+  max-height: 0px;
+
+  &.visible {
+    max-height: 3000px;
+  }
+}
