@@ -127,7 +127,8 @@ var CommentForm = React.createClass({
   }
 });
 
-$(document).on("page:change", function() {
+// This page:change event is a turbolinks thing. 
+$(function() {
   var $content = $("#content");
   if ($content.length > 0) {
     React.renderComponent(
