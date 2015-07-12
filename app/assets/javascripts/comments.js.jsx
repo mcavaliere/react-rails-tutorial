@@ -66,8 +66,9 @@ var CommentBox = React.createClass({
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
+
+      // <CommentForm onCommentSubmit={this.handleCommentSubmit} />
     );
   }
 });
@@ -129,12 +130,19 @@ var CommentForm = React.createClass({
 
 // This page:change event is a turbolinks thing. 
 $(function() {
-  var $content = $("#content");
-  if ($content.length > 0) {
+  if ( $("#comment-list").length > 0 ) {
     React.renderComponent(
       <CommentBox url="comments.json" pollInterval={2000} />,
-      document.getElementById('content')
+      document.getElementById("comment-list")
+    );
+
+    React.renderComponent(
+      <CommentForm />,
+      document.getElementById("comment-form")
     );
   }
+
+
+
 })
 
