@@ -94,6 +94,14 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  componentDidMount: function() {
+    $(document).on("show-add-form", function(e) {
+      this.setState({ visible: true });
+    }.bind(this));
+  },
+  getInitialState: function() {
+    return ({ visible: false });
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     var author = this.refs.author.getDOMNode().value.trim();
@@ -106,9 +114,12 @@ var CommentForm = React.createClass({
     this.refs.text.getDOMNode().value = '';
     return;
   },
+  getDisplayProperty: function() {
+    return (this.state.visible === true ? "block" : "none");
+  },
   render: function() {
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-default" style={{ display: this.getDisplayProperty() }}>
         <div className="panel-heading">Add a Note</div>
         <div className="panel-body">
           <form className="commentForm " onSubmit={this.handleSubmit}>
@@ -129,9 +140,12 @@ var CommentForm = React.createClass({
 });
 
 var CommentButton = React.createClass({
+  handleClick: function(e) {
+    $(document).trigger("show-add-form");
+  },
   render: function() {
     return (
-      <button className="btn btn-primary">Add a Comment</button>
+      <button className="btn btn-primary" onClick={this.handleClick}>Add a Comment</button>
     );
   }
 });
@@ -157,5 +171,5 @@ $(function() {
 
 
 
-})
+});
 
