@@ -94,6 +94,9 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  close: function() {
+    this.setState({ visible: false });
+  },
   componentDidMount: function() {
     $(document).on("show-add-form", function(e) {
       this.setState({ visible: true });
@@ -127,7 +130,9 @@ var CommentForm = React.createClass({
     return (
       <div className={this.getContainerClasses()}>
         <div className="panel panel-default">
-          <div className="panel-heading">Add a Note</div>
+          <div className="panel-heading">Add a Note
+            <button type="button" className="close pull-right" onClick={this.close}>×</button>
+          </div>
           <div className="panel-body">
             <form className="commentForm " onSubmit={this.handleSubmit}>
               <div className="form-group">
