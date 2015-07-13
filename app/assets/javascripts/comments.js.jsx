@@ -33,27 +33,6 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
-  handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    comments.push(comment);
-    this.setState({data: comments}, function() {
-      // `setState` accepts a callback. To avoid (improbable) race condition,
-      // `we'll send the ajax request right after we optimistically set the new
-      // `state.
-      $.ajax({
-        url: this.props.url,
-        dataType: 'json',
-        type: 'POST',
-        data: { comment: comment },
-        success: function(data) {
-          this.setState({data: data});
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.error(this.props.url, status, err.toString());
-        }.bind(this)
-      });
-    });
-  },
   getInitialState: function() {
     return {data: []};
   },
@@ -67,8 +46,6 @@ var CommentBox = React.createClass({
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
       </div>
-
-      // <CommentForm onCommentSubmit={this.handleCommentSubmit} />
     );
   }
 });
@@ -94,6 +71,25 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  submit: function( comment ) {
+    // Post to the server, and publish a global event. 
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: { comment: comment },
+      success: function(data) {
+        $(document).trigger("comment-add-success");
+
+        this.close();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        $(document).trigger("comment-add-error");
+
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
   close: function() {
     this.setState({ visible: false });
 
@@ -114,7 +110,7 @@ var CommentForm = React.createClass({
     if (!text || !author) {
       return;
     }
-    this.props.onCommentSubmit({author: author, text: text});
+    this.submit({author: author, text: text});
     this.refs.author.getDOMNode().value = '';
     this.refs.text.getDOMNode().value = '';
     return;
@@ -202,7 +198,7 @@ $(function() {
     );
 
     React.renderComponent(
-      <CommentForm />,
+      <CommentForm url="comments.json" />,
       $("#comment-form .form-container")[0]
     );
   }
