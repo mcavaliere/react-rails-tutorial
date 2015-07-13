@@ -17,5 +17,4 @@ $(function() {
       $("#comment-form .form-container")[0]
     );
   }
-
 });

@@ -26,7 +26,7 @@
       return (
         <div className="commentBox">
           <h1>Comments</h1>
-          <App.Components.CommentList data={this.state.data} />
+          <App.Components.CommentList data={this.state.data} url={this.props.url} />
         </div>
       );
     }
