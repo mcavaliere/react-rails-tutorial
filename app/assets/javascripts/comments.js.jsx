@@ -3,24 +3,6 @@
 (function(){ 
   var converter = new Showdown.converter();
 
-  var Comment = React.createClass({
-    render: function() {
-      var rawMarkup = converter.makeHtml(this.props.children.toString());
-      return (
-        <div className="comment panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">
-              {this.props.author}
-            </h3>
-          </div>
-          <div className="panel-body">
-            <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
-          </div>
-        </div>
-      );
-    }
-  });
-
   var CommentBox = React.createClass({
     loadCommentsFromServer: function() {
       $.ajax({
@@ -139,9 +121,9 @@
           // `key` is a React-specific concept and is not mandatory for the
           // purpose of this tutorial. if you're curious, see more here:
           // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-          <Comment author={comment.author} key={index}>
+          <App.Components.Comment author={comment.author} key={index}>
             {comment.text}
-          </Comment>
+          </App.Components.Comment>
         );
       });
       return (
@@ -188,13 +170,12 @@
     }
   });
 
-  $.extend(CavApp.ReactClasses, {
-    Comment: Comment,
+  $.extend(App.Components, {
     CommentBox: CommentBox,
     CommentButton: CommentButton,
     CommentForm: CommentForm,
     CommentList: CommentList
-  });  
+  });
 })();
 
 
@@ -208,17 +189,17 @@
 $(function() {
   if ( $("#comment-list").length > 0 ) {
     React.renderComponent(
-      <CavApp.ReactClasses.CommentBox url="comments.json" pollInterval={2000} />,
+      <App.Components.CommentBox url="comments.json" pollInterval={2000} />,
       $("#comment-list")[0]
     );
 
     React.renderComponent(
-      <CavApp.ReactClasses.CommentButton />,
+      <App.Components.CommentButton />,
       $("#comment-form .button-container")[0]
     );
 
     React.renderComponent(
-      <CavApp.ReactClasses.CommentForm url="comments.json" />,
+      <App.Components.CommentForm url="comments.json" />,
       $("#comment-form .form-container")[0]
     );
   }

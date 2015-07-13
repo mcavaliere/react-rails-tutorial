@@ -1,7 +1,5 @@
-var CavApp = {
-  ReactClasses: {
-    
+var App = {
+  Components: {
+
   }
 };
-
-console.warn('included CavApp.');
