@@ -7,3 +7,12 @@
     max-height: 1000px;
   }
 }
+
+.comment-button {
+  transition: 1s all;
+  opacity: 0;
+
+  &.visible {
+    opacity: 1;
+  }
+}
