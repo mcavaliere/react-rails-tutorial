@@ -24,5 +24,4 @@
   $.extend(App.Components, {
     Comment: Comment
   });
-
 })();
