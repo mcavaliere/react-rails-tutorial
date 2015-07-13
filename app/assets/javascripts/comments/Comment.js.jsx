@@ -10,18 +10,13 @@
     delete: function(e) {
       e.preventDefault();
 
-      $.ajax({
-        url: this.getUrl(),
-        dataType: "json",
-        method: "DELETE",
-        _method: "delete",
-        success: function() {
+      App.CommentService.destroy( this.props.id ).
+        then(function() {
           $(document).trigger("comment-delete-success");
-        }.bind(this),
-        error: function() {
-          console.error(this.props.url, status, err.toString());
-        }.bind(this)
-      });
+        }).
+        fail(function() {
+          console.error(status, err.toString());
+        });
     },
     render: function() {
       var rawMarkup = converter.makeHtml(this.props.children.toString());

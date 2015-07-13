@@ -3,23 +3,15 @@
 (function(){ 
   var CommentForm = React.createClass({
     submit: function( comment ) {
-      // Post to the server, and publish a global event. 
-      $.ajax({
-        url: this.props.url,
-        dataType: 'json',
-        type: 'POST',
-        data: { comment: comment },
-        success: function(data) {
+      App.CommentService.create( comment ).
+        then(function() {
           $(document).trigger("comment-add-success");
 
-          this.close();
-        }.bind(this),
-        error: function(xhr, status, err) {
-          $(document).trigger("comment-add-error");
-
-          console.error(this.props.url, status, err.toString());
-        }.bind(this)
-      });
+          this.close();          
+        }.bind(this)).
+        fail(function(xhr, status, err) {
+          console.error(status, err.toString());
+        });
     },
     close: function() {
       this.setState({ visible: false });
