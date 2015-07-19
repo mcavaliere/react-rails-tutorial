@@ -4,9 +4,6 @@
   var converter = new Showdown.converter();
 
   var Comment = React.createClass({
-    getUrl: function() {
-      return "/comments/" + this.props.id;
-    },
     delete: function(e) {
       e.preventDefault();
 
