@@ -15,7 +15,9 @@
       }.bind(this));
       return (
         <div className="commentList">
+          <React.addons.CSSTransitionGroup transitionName="comment-transition">
           {commentNodes}
+          </React.addons.CSSTransitionGroup>
         </div>
       );
     }
