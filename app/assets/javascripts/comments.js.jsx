@@ -3,7 +3,7 @@
 $(function() {
   if ( $("#comment-list").length > 0 ) {
     React.renderComponent(
-      <App.Components.CommentBox url="comments.json" pollInterval={2000} />,
+      <App.Components.CommentBox />,
       $("#comment-list")[0]
     );
 
@@ -13,7 +13,7 @@ $(function() {
     );
 
     React.renderComponent(
-      <App.Components.CommentForm url="comments.json" />,
+      <App.Components.CommentForm />,
       $("#comment-form .form-container")[0]
     );
   }
