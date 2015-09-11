@@ -29,6 +29,7 @@ var TodoRow = React.createClass({
       <tr>
         <td><input type="checkbox" value="" /></td>
         <td>{ this.props.text }</td>
+        <td><span className="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
       </tr>
     );
   }
@@ -51,6 +52,7 @@ var TodoEmptyRow = React.createClass({
             <button type="submit" className="btn btn-primary">Save</button>
           </div>
         </td>
+        <td></td>
       </tr>
     );
   }
