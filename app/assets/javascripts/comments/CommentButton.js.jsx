@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 (function(){ 
   var CommentButton = React.createClass({
     getClasses: function() {

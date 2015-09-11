@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 (function(){ 
 
   var CommentBox = React.createClass({

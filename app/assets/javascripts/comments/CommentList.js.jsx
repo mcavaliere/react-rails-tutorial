@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 (function(){ 
   var CommentList = React.createClass({
     render: function() {

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 (function(){ 
   var CommentForm = React.createClass({
     submit: function( comment ) {

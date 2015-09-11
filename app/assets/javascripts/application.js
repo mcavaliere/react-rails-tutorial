@@ -15,5 +15,7 @@
 //= require bootstrap-sprockets
 //= require showdown
 //= require react
+//= require react_ujs
+//= require components
 //= require base
 //= require_tree .

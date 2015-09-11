@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var About = React.createClass({
   render: function() {
     return <h2>About</h2>;
@@ -18,17 +16,17 @@ var Home = React.createClass({
 
 var CommentPage = React.createClass({
   componentDidMount: function() {
-    React.renderComponent(
+    React.render(
       <App.Components.CommentBox />,
       $("#comment-list")[0]
     );
 
-    React.renderComponent(
+    React.render(
       <App.Components.CommentButton />,
       $("#comment-form .button-container")[0]
     );
 
-    React.renderComponent(
+    React.render(
       <App.Components.CommentForm />,
       $("#comment-form .form-container")[0]
     );    
@@ -85,7 +83,7 @@ $(function() {
 
   function render() {
     var route = window.location.hash.substr(1);
-    React.renderComponent(<ContentContainer route={route} />, document.getElementById("app-container"));
+    React.render(<ContentContainer route={route} />, document.getElementById("app-container"));
   }
 
   window.addEventListener("hashchange", render);
@@ -94,17 +92,17 @@ $(function() {
 
 /*
   if ( $("#comment-list").length > 0 ) {
-    React.renderComponent(
+    React.render(
       <App.Components.CommentBox />,
       $("#comment-list")[0]
     );
 
-    React.renderComponent(
+    React.render(
       <App.Components.CommentButton />,
       $("#comment-form .button-container")[0]
     );
 
-    React.renderComponent(
+    React.render(
       <App.Components.CommentForm />,
       $("#comment-form .form-container")[0]
     );
