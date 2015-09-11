@@ -4,6 +4,12 @@ var AboutPage = React.createClass({
   }
 });
 var TodosPage = React.createClass({
+  componentDidMount: function() {
+    React.render(
+      <App.Components.TodosTable />,
+      $("#todos-table")[0]
+    );
+  },
   render: function() {
     return (
       <div>
