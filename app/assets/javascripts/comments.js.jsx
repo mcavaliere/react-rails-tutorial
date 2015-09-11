@@ -14,6 +14,19 @@ var Home = React.createClass({
   }
 });
 
+var NotFoundPage = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h2>Dang. 404 Not Found.</h2>
+        <p>Sorry, brah. That page ain't reals. </p>
+      </div>
+    );
+  }
+});
+
+
+
 var CommentPage = React.createClass({
   componentDidMount: function() {
     React.render(
@@ -50,41 +63,35 @@ var ContentContainer = React.createClass({
   render: function() {
     var Child;
 
-    switch (this.props.route) {
-      case "about":
-        Child = About;
-        break;
-
-      case "comments": 
-        Child = CommentPage;
-        break;
-
-      case "inbox": 
-        Child = Inbox;
-        break;
-
-      default:
-        Child = Home;
-        break;
-    }
-
     return (
       <div id="content-container">
         <h1>App Container</h1>
-        <Child />
+        <RouteHandler />
       </div>
     );
   }
 });
 
+var Route = ReactRouter.Route;
+var RouteHandler = ReactRouter.RouteHandler;
+var DefaultRoute = ReactRouter.DefaultRoute;
+var NotFoundRoute = ReactRouter.NotFoundRoute;
+
+var routes = (
+  <Route path="/" handler={ContentContainer}>
+    <DefaultRoute handler={Home} />
+    <NotFoundRoute handler={NotFoundPage} />
+
+    <Route path="about" handler={About} />
+    <Route path="comments" handler={CommentPage} />
+    <Route path="inbox" handler={Inbox} />
+    <Route path="home" handler={Home} />
+  </Route>
+);
+
 $(function() {
-  function render() {
-    var route = window.location.hash.substr(1);
-    React.render(<ContentContainer route={route} />, document.getElementById("app-container"));
-  }
 
-  window.addEventListener("hashchange", render);
-
-  // Initial render.
-  render();
+  ReactRouter.run(routes, ReactRouter.HashLocation, function(Root) {
+    React.render(<Root />, document.getElementById("app-container"));
+  });
 });
