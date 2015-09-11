@@ -77,10 +77,7 @@ var ContentContainer = React.createClass({
   }
 });
 
-
-
 $(function() {
-
   function render() {
     var route = window.location.hash.substr(1);
     React.render(<ContentContainer route={route} />, document.getElementById("app-container"));
@@ -88,25 +85,6 @@ $(function() {
 
   window.addEventListener("hashchange", render);
 
+  // Initial render.
   render();
-
-/*
-  if ( $("#comment-list").length > 0 ) {
-    React.render(
-      <App.Components.CommentBox />,
-      $("#comment-list")[0]
-    );
-
-    React.render(
-      <App.Components.CommentButton />,
-      $("#comment-form .button-container")[0]
-    );
-
-    React.render(
-      <App.Components.CommentForm />,
-      $("#comment-form .form-container")[0]
-    );
-  }
-
-*/
 });
