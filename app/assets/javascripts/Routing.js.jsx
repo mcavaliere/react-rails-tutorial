@@ -1,14 +1,19 @@
-var About = React.createClass({
+var AboutPage = React.createClass({
   render: function() {
     return <h2>About</h2>;
   }
 });
-var Inbox = React.createClass({
+var TodosPage = React.createClass({
   render: function() {
-    return <h2>Inbox</h2>;
+    return (
+      <div>
+        <h2>Todo List</h2>
+        <div id="todos-table"></div>
+      </div>
+    );
   }
 });
-var Home = React.createClass({
+var HomePage = React.createClass({
   render: function() {
     return <h2>Home</h2>;
   }
@@ -77,12 +82,12 @@ var NotFoundRoute = ReactRouter.NotFoundRoute;
 
 var routes = (
   <Route path="/" handler={ContentContainer}>
-    <DefaultRoute handler={Home} />
+    <DefaultRoute handler={HomePage} />
     <NotFoundRoute handler={NotFoundPage} />
 
-    <Route path="about" handler={About} />
+    <Route path="about" handler={AboutPage} />
     <Route path="comments" handler={CommentPage} />
-    <Route path="inbox" handler={Inbox} />
-    <Route path="home" handler={Home} />
+    <Route path="todos" handler={TodosPage} />
+    <Route path="home" handler={HomePage} />
   </Route>
 );
