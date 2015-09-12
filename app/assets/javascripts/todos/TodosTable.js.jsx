@@ -6,6 +6,10 @@ var Todos = (function() {
     {id: 2, text: "Do Laundry"}
   ];
 
+  function fetch() {
+    return $.getJSON( Routes.todos_path() );
+  }
+
   function all() {
     return _list;
   }
@@ -25,6 +29,7 @@ var Todos = (function() {
 
   return {
     all: all,
+    fetch: fetch,
     create: create,
     update: update,
     destroy: destroy
@@ -33,6 +38,11 @@ var Todos = (function() {
 
 
 var TodosTable = React.createClass({
+  getInitialState: function() {
+    return {
+      todos: []
+    };
+  },
   componentDidMount: function() {
     $(App).on("todo:add-requested", function() {
       console.warn('CAUGHT: todo:add-requested');
@@ -45,12 +55,18 @@ var TodosTable = React.createClass({
     $(App).on("todo:toggle-requested", function() {
       console.warn('CAUGHT: todo:toggle-requested');
     });
+
+    Todos.fetch().then(function(todos) {
+      this.setState({
+        todos: todos
+      });
+    }.bind(this));
   },
   componentWillUnmount: function() {
 
   },
   render: function() {
-    var rowNodes = Todos.all().map(function(t, i) {
+    var rowNodes = this.state.todos.map(function(t, i) {
       return (
         <TodoRow text={t.text} key={i} />
       );
