@@ -24,24 +24,45 @@ var TodosTable = React.createClass({
 
 
 var TodoRow = React.createClass({
+  checkChanged: function() {
+    console.warn('todo:check-row-changed');
+  },
+  deleteClicked: function() {
+    console.warn('todo:delete-row-clicked');
+  },
   render: function() {
     return (
       <tr>
-        <td><input type="checkbox" value="" /></td>
+        <td><input type="checkbox" value="" onChange={this.checkChanged} /></td>
         <td>{ this.props.text }</td>
-        <td><span className="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+        <td><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.deleteClicked}></span></td>
       </tr>
     );
   }
 });
 
 var TodoEmptyRow = React.createClass({
+  componentDidMount: function() {
+    console.warn('componentDidMount');
+  },
+  componentWillUnmount: function() {
+    console.warn('componentWillUnmount');
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+
+    console.warn('todo:add-form-submitted');
+
+    // $(App).trigger("todo:add-form-submitted", {
+
+    // });
+  },
   render: function() {
     return (
       <tr>
         <td></td>
         <td>
-          <div className="form-inline">
+          <form className="form-inline" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">Add Todo:</div>
@@ -50,7 +71,7 @@ var TodoEmptyRow = React.createClass({
             </div>
             
             <button type="submit" className="btn btn-primary">Save</button>
-          </div>
+          </form>
         </td>
         <td></td>
       </tr>
