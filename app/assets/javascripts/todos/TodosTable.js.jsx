@@ -5,6 +5,22 @@ var todos = [
 
 
 var TodosTable = React.createClass({
+  componentDidMount: function() {
+    $(App).on("todo:add-requested", function() {
+      console.warn('CAUGHT: todo:add-requested');
+    });
+
+    $(App).on("todo:delete-requested", function() {
+      console.warn('CAUGHT: todo:delete-requested');
+    });
+
+    $(App).on("todo:toggle-requested", function() {
+      console.warn('CAUGHT: todo:toggle-requested');
+    });
+  },
+  componentWillUnmount: function() {
+
+  },
   render: function() {
     var rowNodes = todos.map(function(t, i) {
       return (
@@ -25,10 +41,10 @@ var TodosTable = React.createClass({
 
 var TodoRow = React.createClass({
   checkChanged: function() {
-    console.warn('todo:check-row-changed');
+    $(App).trigger('todo:toggle-requested');
   },
   deleteClicked: function() {
-    console.warn('todo:delete-row-clicked');
+    $(App).trigger('todo:delete-requested');
   },
   render: function() {
     return (
@@ -43,19 +59,25 @@ var TodoRow = React.createClass({
 
 var TodoEmptyRow = React.createClass({
   componentDidMount: function() {
-    console.warn('componentDidMount');
+    $(App).on("todo:add-success", function() {
+      console.warn("CAUGHT: todo:add-success");
+    });
+    
+    $(App).on("todo:add-error", function() {
+      console.warn("CAUGHT: todo:add-error");
+    });
   },
-  componentWillUnmount: function() {
-    console.warn('componentWillUnmount');
+  componentWillUnmount: function() {    
+    // $(App).off("todo:add-success");
+    
+    // $(App).off("todo:add-error");
   },
   handleSubmit: function(e) {
     e.preventDefault();
 
-    console.warn('todo:add-form-submitted');
+    $(App).trigger("todo:add-requested", {
 
-    // $(App).trigger("todo:add-form-submitted", {
-
-    // });
+    });
   },
   render: function() {
     return (
