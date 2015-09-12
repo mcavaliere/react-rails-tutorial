@@ -17,8 +17,8 @@ var Todos = (function() {
 
   function create(todo) {
     return $.ajax({
-      type: "POST",
       url: Routes.todos_path(),
+      type: "POST",
       dataType: "json",
       data: { "todo": todo }
     });
@@ -28,8 +28,13 @@ var Todos = (function() {
 
   }
 
-  function destroy() {
-
+  function destroy(id) {
+    return $.ajax({
+      type: "POST",
+      url: Routes.todo_path(id),
+      dataType: "json",
+      data: {"_method":"delete"}
+    });
   }
 
   return {
@@ -67,8 +72,17 @@ var TodosTable = React.createClass({
         });
     });
 
-    $(App).on("todo:delete-requested", function() {
+    $(App).on("todo:delete-requested", function(e, id) {
       console.warn('CAUGHT: todo:delete-requested');
+
+      Todos.destroy(id)
+        .done(function() {
+          $(App).trigger("todo:delete-success", id);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          debugger;
+          $(App).trigger("todo:delete-error", errorThrown);
+        });
     }.bind(this));
 
     $(App).on("todo:toggle-requested", function() {
@@ -80,6 +94,11 @@ var TodosTable = React.createClass({
       this.refresh();
     }.bind(this));
 
+    $(App).on("todo:delete-success", function() {
+      console.warn('CAUGHT: todo:delete-success');
+      this.refresh();
+    }.bind(this));
+
     this.refresh();
   },
   componentWillUnmount: function() {
@@ -88,7 +107,7 @@ var TodosTable = React.createClass({
   render: function() {
     var rowNodes = this.state.todos.map(function(t, i) {
       return (
-        <TodoRow text={t.text} key={t.id} />
+        <TodoRow text={t.text} key={t.id} id={t.id} />
       );
     })    
 
@@ -110,7 +129,7 @@ var TodoRow = React.createClass({
     $(App).trigger('todo:toggle-requested');
   },
   deleteClicked: function() {
-    $(App).trigger('todo:delete-requested');
+    $(App).trigger('todo:delete-requested', this.props.id);
   },
   render: function() {
     return (
