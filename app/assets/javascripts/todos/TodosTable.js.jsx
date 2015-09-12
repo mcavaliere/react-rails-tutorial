@@ -94,8 +94,10 @@ var TodosTable = React.createClass({
 
     return (
       <table className="table table-striped table-bordered">
-      {rowNodes}
-      <TodoEmptyRow />
+      <tbody>
+        {rowNodes}
+        <TodoEmptyRow />
+      </tbody>
       </table>
     );
   }
