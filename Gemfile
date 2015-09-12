@@ -51,6 +51,7 @@ group :development, :test do
 end
 
 gem 'bower-rails'
+gem 'js-routes'
 gem 'react-rails', '~> 1.0'
 
 gem 'showdown-rails'
