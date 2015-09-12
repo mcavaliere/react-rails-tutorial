@@ -15,8 +15,13 @@ var Todos = (function() {
   }
 
 
-  function create() {
-
+  function create(todo) {
+    return $.ajax({
+      type: "POST",
+      url: Routes.todos_path(),
+      dataType: "json",
+      data: { "todo": todo }
+    });
   }
 
   function update() {
@@ -38,29 +43,47 @@ var Todos = (function() {
 
 
 var TodosTable = React.createClass({
+  refresh: function() {
+    return Todos.fetch().then(function(todos) {
+      this.setState({
+        todos: todos
+      });
+    }.bind(this));
+  },
   getInitialState: function() {
     return {
       todos: []
     };
   },
   componentDidMount: function() {
-    $(App).on("todo:add-requested", function() {
-      console.warn('CAUGHT: todo:add-requested');
+    $(App).on("todo:add-requested", function(e, todo) {
+      console.warn('CAUGHT: todo:add-requested:');
+      console.warn(todo);
+
+      Todos.create(todo)
+        .done(function(todo) {
+          $(App).trigger("todo:add-success", todo);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          debugger;
+          $(App).trigger("todo:add-error", errorThrown);
+        });
     });
 
     $(App).on("todo:delete-requested", function() {
       console.warn('CAUGHT: todo:delete-requested');
-    });
+    }.bind(this));
 
     $(App).on("todo:toggle-requested", function() {
       console.warn('CAUGHT: todo:toggle-requested');
-    });
-
-    Todos.fetch().then(function(todos) {
-      this.setState({
-        todos: todos
-      });
     }.bind(this));
+
+    $(App).on("todo:add-success", function() {
+      console.warn('CAUGHT: todo:add-success');
+      this.refresh();
+    }.bind(this));
+
+    this.refresh();
   },
   componentWillUnmount: function() {
 
@@ -68,7 +91,7 @@ var TodosTable = React.createClass({
   render: function() {
     var rowNodes = this.state.todos.map(function(t, i) {
       return (
-        <TodoRow text={t.text} key={i} />
+        <TodoRow text={t.text} key={t.id} />
       );
     })    
 
@@ -120,7 +143,7 @@ var TodoEmptyRow = React.createClass({
     e.preventDefault();
 
     $(App).trigger("todo:add-requested", {
-
+      text: this.refs.text.getDOMNode().value
     });
   },
   render: function() {
@@ -132,7 +155,7 @@ var TodoEmptyRow = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">Add Todo:</div>
-                <input type="text" className="form-control" id="new-todo" placeholder="add a todo..." />
+                <input type="text" ref="text" className="form-control" id="new-todo" placeholder="add a todo..." />
               </div>
             </div>
             
