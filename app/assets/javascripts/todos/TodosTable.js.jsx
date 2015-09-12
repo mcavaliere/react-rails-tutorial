@@ -1,7 +1,35 @@
-var todos = [
-  {id: 1, text: "Buy Milk"},
-  {id: 2, text: "Do Laundry"}
-];
+
+
+var Todos = (function() {
+  var _list = [
+    {id: 1, text: "Buy Milk"},
+    {id: 2, text: "Do Laundry"}
+  ];
+
+  function all() {
+    return _list;
+  }
+
+
+  function create() {
+
+  }
+
+  function update() {
+
+  }
+
+  function destroy() {
+
+  }
+
+  return {
+    all: all,
+    create: create,
+    update: update,
+    destroy: destroy
+  };
+})();
 
 
 var TodosTable = React.createClass({
@@ -22,7 +50,7 @@ var TodosTable = React.createClass({
 
   },
   render: function() {
-    var rowNodes = todos.map(function(t, i) {
+    var rowNodes = Todos.all().map(function(t, i) {
       return (
         <TodoRow text={t.text} key={i} />
       );
