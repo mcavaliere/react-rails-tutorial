@@ -57,9 +57,6 @@ var TodosTable = React.createClass({
   },
   componentDidMount: function() {
     $(App).on("todo:add-requested", function(e, todo) {
-      console.warn('CAUGHT: todo:add-requested:');
-      console.warn(todo);
-
       Todos.create(todo)
         .done(function(todo) {
           $(App).trigger("todo:add-success", todo);
@@ -125,10 +122,14 @@ var TodoRow = React.createClass({
 });
 
 var TodoEmptyRow = React.createClass({
+  reset: function() {
+    this.refs.text.getDOMNode().value = "";
+  },
   componentDidMount: function() {
     $(App).on("todo:add-success", function() {
       console.warn("CAUGHT: todo:add-success");
-    });
+      this.reset();
+    }.bind(this));
     
     $(App).on("todo:add-error", function() {
       console.warn("CAUGHT: todo:add-error");
