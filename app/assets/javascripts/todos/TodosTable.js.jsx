@@ -1,19 +1,9 @@
 
 
 var Todos = (function() {
-  var _list = [
-    {id: 1, text: "Buy Milk"},
-    {id: 2, text: "Do Laundry"}
-  ];
-
   function fetch() {
     return $.getJSON( Routes.todos_path() );
   }
-
-  function all() {
-    return _list;
-  }
-
 
   function create(todo) {
     return $.ajax({
@@ -43,7 +33,6 @@ var Todos = (function() {
   }
 
   return {
-    all: all,
     fetch: fetch,
     create: create,
     update: update,
@@ -78,8 +67,6 @@ var TodosTable = React.createClass({
     });
 
     $(App).on("todo:delete-requested", function(e, id) {
-      console.warn('CAUGHT: todo:delete-requested');
-
       Todos.destroy(id)
         .done(function() {
           $(App).trigger("todo:delete-success", id);
@@ -91,11 +78,8 @@ var TodosTable = React.createClass({
     }.bind(this));
 
     $(App).on("todo:toggle-requested", function(e, params) {
-      console.warn('CAUGHT: todo:toggle-requested');
-
       Todos.update(params.id, { done: params.done })
         .done(function(todo) {
-          // debugger;
           $(App).trigger("todo:toggle-success", todo);
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
@@ -105,21 +89,15 @@ var TodosTable = React.createClass({
     }.bind(this));
 
     $(App).on("todo:add-success", function() {
-      console.warn('CAUGHT: todo:add-success');
       this.refresh();
     }.bind(this));
 
     $(App).on("todo:delete-success", function() {
-      console.warn('CAUGHT: todo:delete-success');
       this.refresh();
     }.bind(this));
 
     $(App).on("todo:toggle-success", function(e, todo) {
-      //debugger;
-      console.warn('CAUGHT: todo:toggle-success');
-
       this.refs["todo-"+todo.id].setState({ done: todo.done });
-      // this.refresh();
     }.bind(this));
 
     this.refresh();
@@ -128,7 +106,6 @@ var TodosTable = React.createClass({
 
   },
   render: function() {
-    console.warn('TodosTable.render()');
     var rowNodes = this.state.todos.map(function(t, i) {
       var ref = "todo-" + t.id;
 
@@ -166,7 +143,6 @@ var TodoRow = React.createClass({
     $(App).trigger('todo:delete-requested', this.props.id);
   },
   render: function() {
-    console.warn('TodoRow.render(). Done: '+this.state.done);
     return (
       <tr>
         <td><input type="checkbox" value="1" checked={this.state.done} onChange={this.checkChanged} /></td>
@@ -183,7 +159,6 @@ var TodoEmptyRow = React.createClass({
   },
   componentDidMount: function() {
     $(App).on("todo:add-success", function() {
-      console.warn("CAUGHT: todo:add-success");
       this.reset();
     }.bind(this));
     
