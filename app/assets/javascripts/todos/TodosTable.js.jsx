@@ -24,8 +24,13 @@ var Todos = (function() {
     });
   }
 
-  function update() {
-
+  function update(id, params) {
+    return $.ajax({
+      url: Routes.todo_path(id),
+      type: "PUT",
+      data: { "todo": params },
+      dataType: "json"
+    });
   }
 
   function destroy(id) {
@@ -85,8 +90,18 @@ var TodosTable = React.createClass({
         });
     }.bind(this));
 
-    $(App).on("todo:toggle-requested", function() {
+    $(App).on("todo:toggle-requested", function(e, params) {
       console.warn('CAUGHT: todo:toggle-requested');
+
+      Todos.update(params.id, { done: params.done })
+        .done(function(todo) {
+          // debugger;
+          $(App).trigger("todo:toggle-success", todo);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          debugger;
+          $(App).trigger("todo:toggle-error", errorThrown);
+        });
     }.bind(this));
 
     $(App).on("todo:add-success", function() {
@@ -99,17 +114,28 @@ var TodosTable = React.createClass({
       this.refresh();
     }.bind(this));
 
+    $(App).on("todo:toggle-success", function(e, todo) {
+      //debugger;
+      console.warn('CAUGHT: todo:toggle-success');
+
+      this.refs["todo-"+todo.id].setState({ done: todo.done });
+      // this.refresh();
+    }.bind(this));
+
     this.refresh();
   },
   componentWillUnmount: function() {
 
   },
   render: function() {
+    console.warn('TodosTable.render()');
     var rowNodes = this.state.todos.map(function(t, i) {
+      var ref = "todo-" + t.id;
+
       return (
-        <TodoRow text={t.text} key={t.id} id={t.id} />
+        <TodoRow text={t.text} key={t.id} id={t.id} ref={ref} checked={t.done} />
       );
-    })    
+    });
 
     return (
       <table className="table table-striped table-bordered">
@@ -125,16 +151,25 @@ var TodosTable = React.createClass({
 
 
 var TodoRow = React.createClass({
+  getInitialState: function() {
+    return ({
+      done: this.props.checked
+    });
+  },
   checkChanged: function() {
-    $(App).trigger('todo:toggle-requested');
+    $(App).trigger('todo:toggle-requested', {
+      id: this.props.id,
+      done: !this.state.done
+    });
   },
   deleteClicked: function() {
     $(App).trigger('todo:delete-requested', this.props.id);
   },
   render: function() {
+    console.warn('TodoRow.render(). Done: '+this.state.done);
     return (
       <tr>
-        <td><input type="checkbox" value="" onChange={this.checkChanged} /></td>
+        <td><input type="checkbox" value="1" checked={this.state.done} onChange={this.checkChanged} /></td>
         <td>{ this.props.text }</td>
         <td><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.deleteClicked}></span></td>
       </tr>
