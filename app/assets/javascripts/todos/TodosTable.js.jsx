@@ -109,7 +109,7 @@
         var ref = "todo-" + t.id;
 
         return (
-          <TodoRow text={t.text} key={t.id} id={t.id} ref={ref} checked={t.done} />
+          <TodoRow txt={t.txt} key={t.id} id={t.id} ref={ref} checked={t.done} />
         );
       });
 
@@ -145,7 +145,7 @@
       return (
         <tr>
           <td><input type="checkbox" value="1" checked={this.state.done} onChange={this.checkChanged} /></td>
-          <td>{ this.props.text }</td>
+          <td>{ this.props.txt }</td>
           <td><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.deleteClicked}></span></td>
         </tr>
       );
@@ -154,7 +154,7 @@
 
   var TodoEmptyRow = React.createClass({
     reset: function() {
-      this.refs.text.getDOMNode().value = "";
+      this.refs.txt.getDOMNode().value = "";
     },
     componentDidMount: function() {
       $(App).on("todo:add-success", function() {
@@ -174,7 +174,7 @@
       e.preventDefault();
 
       $(App).trigger("todo:add-requested", {
-        text: this.refs.text.getDOMNode().value
+        txt: this.refs.txt.getDOMNode().value
       });
     },
     render: function() {
@@ -186,7 +186,7 @@
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">Add Todo:</div>
-                  <input type="text" ref="text" className="form-control" id="new-todo" placeholder="add a todo..." />
+                  <input type="txt" ref="txt" className="form-control" id="new-todo" placeholder="add a todo..." />
                 </div>
               </div>
               

@@ -1,1 +1,1 @@
-json.extract! @todo, :id, :text, :done, :created_at, :updated_at
+json.extract! @todo, :id, :txt, :done, :created_at, :updated_at

@@ -13,15 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20150912175303) do
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.string   "author"
-    t.text     "text"
+    t.text     "txt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "todos", force: true do |t|
-    t.string   "text"
+  create_table "todos", force: :cascade do |t|
+    t.string   "txt"
     t.boolean  "done",       default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
