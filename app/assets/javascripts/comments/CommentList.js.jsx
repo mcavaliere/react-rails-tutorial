@@ -7,7 +7,7 @@
           // purpose of this tutorial. if you're curious, see more here:
           // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
           <App.Components.Comment id={comment.id} author={comment.author} key={index}>
-            {comment.text}
+            {comment.txt}
           </App.Components.Comment>
         );
       }.bind(this));

@@ -27,13 +27,13 @@
     handleSubmit: function(e) {
       e.preventDefault();
       var author = this.refs.author.getDOMNode().value.trim();
-      var text = this.refs.text.getDOMNode().value.trim();
-      if (!text || !author) {
+      var txt = this.refs.txt.getDOMNode().value.trim();
+      if (!txt || !author) {
         return;
       }
-      this.submit({author: author, text: text});
+      this.submit({author: author, txt: txt});
       this.refs.author.getDOMNode().value = '';
-      this.refs.text.getDOMNode().value = '';
+      this.refs.txt.getDOMNode().value = '';
       return;
     },
     getContainerClasses: function() {
@@ -60,7 +60,7 @@
                 </div>
                 <div className="form-group">
                   <label className="control-label" forName="commentInput">Comment</label>
-                  <textarea className="form-control" id="commentInput" rows="3" placeholder="Say something..." ref="text" />
+                  <textarea className="form-control" id="commentInput" rows="3" placeholder="Say something..." ref="txt" />
                 </div>
                 <input type="submit" className="btn btn-primary" value="Post" />
               </form>
