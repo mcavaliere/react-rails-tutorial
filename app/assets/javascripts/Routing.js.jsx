@@ -75,6 +75,10 @@ var ContentContainer = React.createClass({
     return (
       <div id="content-container">
         <h1>App Container</h1>
+        <App.Components.Banner type="success" />
+        <App.Components.Banner type="info" />
+        <App.Components.Banner type="warning" />
+        <App.Components.Banner type="danger" />
         <RouteHandler />
       </div>
     );

@@ -1,5 +1,3 @@
-
-
 var Todos = (function() {
   function fetch() {
     return $.getJSON( Routes.todos_path() );
