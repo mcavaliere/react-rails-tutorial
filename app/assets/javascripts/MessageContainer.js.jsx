@@ -10,6 +10,24 @@
         messages: []
       });
     },
+    prompt: function() {
+      switch (this.props.type) {
+        case "success":
+          return "Success! ";
+
+        case "info":
+          return "Info: ";
+
+        case "warning":
+          return "Warning: ";
+
+        case "danger":
+          return "Error: ";
+        
+        default: 
+          throw "The Banner component's 'type' prop must be one of 'success', 'info', 'warning' or 'danger.'";
+      }
+    },
     componentDidMount: function() {
       $(App).on("banner:add-"+this.props.type, function(e, message) {
         this.add(message);
@@ -37,6 +55,8 @@
 
       return (
         <div className={classString} role="alert">
+          <strong>{this.prompt()}</strong>
+          
           {this.state.messages}
         </div>
       );
