@@ -1,10 +1,22 @@
 (function() {
   var Banner = React.createClass({
+    add: function(message) {
+      this.setState({
+        messages: this.state.messages.concat(message)
+      });
+    },
+    reset: function() {
+      this.setState({
+        messages: []
+      });
+    },
     componentDidMount: function() {
       $(App).on("banner:add-"+this.props.type, function(e, message) {
-        this.setState({
-          messages: this.state.messages.concat(message)
-        })
+        this.add(message);
+      }.bind(this));
+
+      $(App).on("banner:reset-"+this.props.type, function(e, message) {
+        this.reset();
       }.bind(this));
     },
     getInitialState: function() {
@@ -32,39 +44,17 @@
   });
 
   var MessageContainer = React.createClass({
-    reset: function() {
-      this.setState({
-        success: [],
-        info: [],
-        warning: [],
-        danger: []          
-      });
-    },
-    shouldShow: function(type) {
-      return this.getState(type).length > 0;
-    },
-    getInitialState: function() {
-      return (
-        success: [],
-        info: [],
-        warning: [],
-        danger: []
-      );
-    },
     render: function() {
-      var success,
-          info,
-          warning,
-          danger
-
-
       return (
-        <div id="message-container">
+        <div className="message-container">
+          <Banner type="success" />
+          <Banner type="info" />
+          <Banner type="warning" />
+          <Banner type="danger" />        
         </div>
       );
     }
   });
-
 
   $.extend(App.Components, {
     Banner: Banner,
