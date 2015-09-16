@@ -1,7 +1,7 @@
 (function(){ 
   var CommentForm = React.createClass({
     submit: function( comment ) {
-      App.CommentService.create( comment ).
+      App.Services.Comments.create( comment ).
         then(function() {
           $(document).trigger("comment-add-success");
 

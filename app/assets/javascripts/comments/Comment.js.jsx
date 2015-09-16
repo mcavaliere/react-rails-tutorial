@@ -5,7 +5,7 @@
     delete: function(e) {
       e.preventDefault();
 
-      App.CommentService.destroy( this.props.id ).
+      App.Services.Comments.destroy( this.props.id ).
         then(function() {
           $(document).trigger("comment-delete-success");
         }).

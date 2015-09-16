@@ -1,5 +1,5 @@
 (function(){ 
-  App.CommentService = (function(){     
+  var Comments = (function(){     
     function all() {
       return $.getJSON("/comments");
     }
@@ -41,6 +41,10 @@
       destroy: destroy
     };
   })();  
+
+  $.extend(App.Services, {
+    Comments: Comments
+  });
 })();
 
 

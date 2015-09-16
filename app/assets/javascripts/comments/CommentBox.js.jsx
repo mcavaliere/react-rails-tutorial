@@ -2,13 +2,13 @@
 
   var CommentBox = React.createClass({
     loadCommentsFromServer: function() {
-      App.CommentService.all().
-          then(function(data) {
-            this.setState({data: data});
-          }.bind(this)).
-          fail(function(xhr, status, err) {
-            console.error(status, err.toString());
-          });
+      App.Services.Comments.all().
+        then(function(data) {
+          this.setState({data: data});
+        }.bind(this)).
+        fail(function(xhr, status, err) {
+          console.error(status, err.toString());
+        });
     },
     getInitialState: function() {
       return {data: []};
