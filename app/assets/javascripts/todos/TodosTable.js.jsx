@@ -127,6 +127,9 @@
 
 
   var TodoRow = React.createClass({
+    getClassName: function() {
+      return (this.state.done ? "done" : "")
+    },
     getInitialState: function() {
       return ({
         done: this.props.checked
@@ -143,9 +146,9 @@
     },
     render: function() {
       return (
-        <tr>
+        <tr className={this.getClassName()}>
           <td><input type="checkbox" value="1" checked={this.state.done} onChange={this.checkChanged} /></td>
-          <td>{ this.props.txt }</td>
+          <td className="txt">{ this.props.txt }</td>
           <td><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.deleteClicked}></span></td>
         </tr>
       );
