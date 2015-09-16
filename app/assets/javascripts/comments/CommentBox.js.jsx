@@ -1,5 +1,4 @@
 (function(){ 
-
   var CommentBox = React.createClass({
     loadCommentsFromServer: function() {
       App.Services.Comments.all().
@@ -16,11 +15,11 @@
     componentDidMount: function() {
       this.loadCommentsFromServer();
       
-      $(document).on("comment-add-success", function() {
+      $(App).on("comment-add-success", function() {
         this.loadCommentsFromServer();
       }.bind(this));
       
-      $(document).on("comment-delete-success", function() {
+      $(App).on("comment-delete-success", function() {
         this.loadCommentsFromServer();
       }.bind(this));
     },

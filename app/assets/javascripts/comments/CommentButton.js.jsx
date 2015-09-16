@@ -15,16 +15,16 @@
     },
     componentDidMount: function() {
       // Hide the button when we're showing the form
-      $(document).on("show-add-form", function() {
+      $(App).on("show-add-form", function() {
         this.setState({ visible: false });
       }.bind(this));
 
-      $(document).on("hide-add-form", function() {
+      $(App).on("hide-add-form", function() {
         this.setState({ visible: true });
       }.bind(this));
     },
     handleClick: function(e) {
-      $(document).trigger("show-add-form");
+      $(App).trigger("show-add-form");
     },
     render: function() {
       return (
