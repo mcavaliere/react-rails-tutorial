@@ -1,5 +1,9 @@
 var App = {
   Components: {
 
+  },
+
+  Services: {
+    
   }
 };

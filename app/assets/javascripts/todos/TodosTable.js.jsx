@@ -1,48 +1,7 @@
 (function() {
-  var Todos = (function() {
-    function fetch() {
-      return $.getJSON( Routes.todos_path() );
-    }
-
-    function create(todo) {
-      return $.ajax({
-        url: Routes.todos_path(),
-        type: "POST",
-        dataType: "json",
-        data: { "todo": todo }
-      });
-    }
-
-    function update(id, params) {
-      return $.ajax({
-        url: Routes.todo_path(id),
-        type: "PUT",
-        data: { "todo": params },
-        dataType: "json"
-      });
-    }
-
-    function destroy(id) {
-      return $.ajax({
-        type: "POST",
-        url: Routes.todo_path(id),
-        dataType: "json",
-        data: {"_method":"delete"}
-      });
-    }
-
-    return {
-      fetch: fetch,
-      create: create,
-      update: update,
-      destroy: destroy
-    };
-  })();
-
-
   var TodosTable = React.createClass({
     refresh: function() {
-      return Todos.fetch().then(function(todos) {
+      return App.Services.Todos.fetch().then(function(todos) {
         this.setState({
           todos: todos
         });
@@ -55,7 +14,7 @@
     },
     componentDidMount: function() {
       $(App).on("todo:add-requested", function(e, todo) {
-        Todos.create(todo)
+        App.Services.Todos.create(todo)
           .done(function(todo) {
             $(App).trigger("todo:add-success", todo);
           })
@@ -66,7 +25,7 @@
       });
 
       $(App).on("todo:delete-requested", function(e, id) {
-        Todos.destroy(id)
+        App.Services.Todos.destroy(id)
           .done(function() {
             $(App).trigger("todo:delete-success", id);
           })
@@ -77,7 +36,7 @@
       }.bind(this));
 
       $(App).on("todo:toggle-requested", function(e, params) {
-        Todos.update(params.id, { done: params.done })
+        App.Services.Todos.update(params.id, { done: params.done })
           .done(function(todo) {
             $(App).trigger("todo:toggle-success", todo);
           })

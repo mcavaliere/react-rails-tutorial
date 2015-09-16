@@ -40,7 +40,6 @@
       update: update,
       destroy: destroy
     };
-
   })();  
 })();
 
