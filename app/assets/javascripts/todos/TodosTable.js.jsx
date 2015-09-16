@@ -102,7 +102,12 @@
       this.refresh();
     },
     componentWillUnmount: function() {
-
+      $(App).off("todo:add-requested");
+      $(App).off("todo:delete-requested");
+      $(App).off("todo:toggle-requested");
+      $(App).off("todo:add-success");
+      $(App).off("todo:delete-success");
+      $(App).off("todo:toggle-success");
     },
     render: function() {
       var rowNodes = this.state.todos.map(function(t, i) {
@@ -169,9 +174,8 @@
       });
     },
     componentWillUnmount: function() {    
-      // $(App).off("todo:add-success");
-      
-      // $(App).off("todo:add-error");
+      $(App).off("todo:add-success");
+      $(App).off("todo:add-error");
     },
     handleSubmit: function(e) {
       e.preventDefault();

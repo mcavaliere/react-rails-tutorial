@@ -4,17 +4,11 @@ var AboutPage = React.createClass({
   }
 });
 var TodosPage = React.createClass({
-  componentDidMount: function() {
-    React.render(
-      <App.Components.TodosTable />,
-      $("#todos-table")[0]
-    );
-  },
   render: function() {
     return (
       <div>
         <h2>Todo List</h2>
-        <div id="todos-table"></div>
+        <App.Components.TodosTable />
       </div>
     );
   }
@@ -98,3 +92,9 @@ var routes = (
     <Route path="home" handler={HomePage} />
   </Route>
 );
+
+$(function() {
+  ReactRouter.run(routes, ReactRouter.HashLocation, function(Root) {
+    React.render(<Root />, document.getElementById("app-container"));
+  });
+});
