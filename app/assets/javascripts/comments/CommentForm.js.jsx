@@ -3,7 +3,7 @@
     submit: function( comment ) {
       App.Services.Comments.create( comment ).
         then(function() {
-          $(App).trigger("comment-add-success");
+          $(App).trigger("comment:add-success");
 
           this.close();          
         }.bind(this)).
@@ -14,10 +14,10 @@
     close: function() {
       this.setState({ visible: false });
 
-      $(App).trigger("hide-add-form");
+      $(App).trigger("comment:hide-add-form");
     },
     componentDidMount: function() {
-      $(App).on("show-add-form", function(e) {
+      $(App).on("comment:show-add-form", function(e) {
         this.setState({ visible: true });
       }.bind(this));
     },

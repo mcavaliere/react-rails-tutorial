@@ -7,7 +7,7 @@
 
       App.Services.Comments.destroy( this.props.id ).
         then(function() {
-          $(App).trigger("comment-delete-success");
+          $(App).trigger("comment:delete-success");
         }).
         fail(function() {
           console.error(status, err.toString());

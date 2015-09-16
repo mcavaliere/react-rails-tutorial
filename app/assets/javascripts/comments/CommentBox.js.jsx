@@ -15,11 +15,11 @@
     componentDidMount: function() {
       this.loadCommentsFromServer();
       
-      $(App).on("comment-add-success", function() {
+      $(App).on("comment:add-success", function() {
         this.loadCommentsFromServer();
       }.bind(this));
       
-      $(App).on("comment-delete-success", function() {
+      $(App).on("comment:delete-success", function() {
         this.loadCommentsFromServer();
       }.bind(this));
     },
