@@ -25,5 +25,8 @@ module RailsReactTutorial
 
     # Use react JS version with addons included.
     config.react.addons = true 
+
+    # Enable converstion of JSX to JS in browserify
+    config.browserify_rails.commandline_options = "--transform reactify --extension=\".jsx\""
   end
 end

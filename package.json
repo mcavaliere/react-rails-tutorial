@@ -1,0 +1,13 @@
+{
+  "name": "cav-react-on-rails",
+  "dependencies": {
+    "browserify": "~> 10.2.4",
+    "browserify-incremental": "^3.0.1",
+    "domready": "^1.0.8",
+    "reactify": "^1.1.1"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  }
+}

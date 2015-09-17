@@ -50,6 +50,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 
+gem 'browserify-rails'
 gem 'bower-rails'
 gem 'js-routes'
 gem 'react-rails', '~> 1.0'
