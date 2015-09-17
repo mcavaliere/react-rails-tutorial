@@ -73,7 +73,7 @@
         var ref = "todo-" + t.id;
 
         return (
-          <TodoRow txt={t.txt} key={t.id} id={t.id} ref={ref} checked={t.done} />
+          <App.Components.TodoRow txt={t.txt} key={t.id} id={t.id} ref={ref} checked={t.done} />
         );
       });
 
@@ -81,92 +81,14 @@
         <table className="table table-striped table-bordered">
         <tbody>
           {rowNodes}
-          <TodoEmptyRow />
+          <App.Components.TodoEmptyRow />
         </tbody>
         </table>
       );
     }
   });
 
-
-
-  var TodoRow = React.createClass({
-    getClassName: function() {
-      return (this.state.done ? "done" : "")
-    },
-    getInitialState: function() {
-      return ({
-        done: this.props.checked
-      });
-    },
-    checkChanged: function() {
-      $(App).trigger('todo:toggle-requested', {
-        id: this.props.id,
-        done: !this.state.done
-      });
-    },
-    deleteClicked: function() {
-      $(App).trigger('todo:delete-requested', this.props.id);
-    },
-    render: function() {
-      return (
-        <tr className={this.getClassName()}>
-          <td><input type="checkbox" value="1" checked={this.state.done} onChange={this.checkChanged} /></td>
-          <td className="txt">{ this.props.txt }</td>
-          <td><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.deleteClicked}></span></td>
-        </tr>
-      );
-    }
-  });
-
-  var TodoEmptyRow = React.createClass({
-    reset: function() {
-      this.refs.txt.getDOMNode().value = "";
-    },
-    componentDidMount: function() {
-      $(App).on("todo:add-success", function() {
-        this.reset();
-      }.bind(this));
-      
-      $(App).on("todo:add-error", function() {
-        console.warn("CAUGHT: todo:add-error");
-      });
-    },
-    componentWillUnmount: function() {    
-      $(App).off("todo:add-success");
-      $(App).off("todo:add-error");
-    },
-    handleSubmit: function(e) {
-      e.preventDefault();
-
-      $(App).trigger("todo:add-requested", {
-        txt: this.refs.txt.getDOMNode().value
-      });
-    },
-    render: function() {
-      return (
-        <tr>
-          <td></td>
-          <td>
-            <form className="form-inline" onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">Add Todo:</div>
-                  <input type="txt" ref="txt" className="form-control" id="new-todo" placeholder="add a todo..." />
-                </div>
-              </div>
-              
-              <button type="submit" className="btn btn-primary">Save</button>
-            </form>
-          </td>
-          <td></td>
-        </tr>
-      );
-    }
-  });
-
   $.extend(App.Components, {
-    TodosTable: TodosTable,
-    TodoRow: TodoRow
+    TodosTable: TodosTable
   });
 })();
