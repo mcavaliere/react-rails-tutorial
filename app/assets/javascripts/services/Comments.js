@@ -1,4 +1,4 @@
-(function(){ 
+(function() { 
   var Comments = (function(){     
     function all() {
       return $.getJSON("/comments");
