@@ -7,13 +7,15 @@ RSpec.describe CommentsController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      author: 'Big Daddy Kane',
-      txt: 'Lorem Ipsum.'
+      author: Faker::Name.name,
+      txt: Faker::Lorem.paragraph
     }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      livefor: "thafunk"
+    }
   }
 
   before do

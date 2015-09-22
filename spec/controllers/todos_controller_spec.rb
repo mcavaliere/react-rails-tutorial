@@ -24,11 +24,13 @@ RSpec.describe TodosController, type: :controller do
   # Todo. As you add validations to Todo, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { txt: Faker::Lorem.sentence }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      txt: nil
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -39,7 +41,7 @@ RSpec.describe TodosController, type: :controller do
   describe "GET #index" do
     it "assigns all todos as @todos" do
       todo = Todo.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {format: :json}, valid_session
       expect(assigns(:todos)).to eq([todo])
     end
   end
@@ -47,14 +49,15 @@ RSpec.describe TodosController, type: :controller do
   describe "GET #show" do
     it "assigns the requested todo as @todo" do
       todo = Todo.create! valid_attributes
-      get :show, {:id => todo.to_param}, valid_session
+      get :show, {format: :json, :id => todo.to_param}, valid_session
       expect(assigns(:todo)).to eq(todo)
     end
   end
 
+=begin
   describe "GET #new" do
     it "assigns a new todo as @todo" do
-      get :new, {}, valid_session
+      get :new, {format: :json}, valid_session
       expect(assigns(:todo)).to be_a_new(Todo)
     end
   end
@@ -62,40 +65,41 @@ RSpec.describe TodosController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested todo as @todo" do
       todo = Todo.create! valid_attributes
-      get :edit, {:id => todo.to_param}, valid_session
+      get :edit, {format: :json, :id => todo.to_param}, valid_session
       expect(assigns(:todo)).to eq(todo)
     end
   end
+=end
 
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Todo" do
         expect {
-          post :create, {:todo => valid_attributes}, valid_session
+          post :create, {format: :json, :todo => valid_attributes}, valid_session
         }.to change(Todo, :count).by(1)
       end
 
       it "assigns a newly created todo as @todo" do
-        post :create, {:todo => valid_attributes}, valid_session
+        post :create, {format: :json, :todo => valid_attributes}, valid_session
         expect(assigns(:todo)).to be_a(Todo)
         expect(assigns(:todo)).to be_persisted
       end
 
       it "redirects to the created todo" do
-        post :create, {:todo => valid_attributes}, valid_session
-        expect(response).to redirect_to(Todo.last)
+        post :create, {format: :json, :todo => valid_attributes}, valid_session
+        expect(response).to have_http_status(:created)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved todo as @todo" do
-        post :create, {:todo => invalid_attributes}, valid_session
+        post :create, {format: :json, :todo => invalid_attributes}, valid_session
         expect(assigns(:todo)).to be_a_new(Todo)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:todo => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, {format: :json, :todo => invalid_attributes}, valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -103,40 +107,43 @@ RSpec.describe TodosController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          done: true
+        }
       }
 
       it "updates the requested todo" do
         todo = Todo.create! valid_attributes
-        put :update, {:id => todo.to_param, :todo => new_attributes}, valid_session
+        expect(todo.done).to be(false)
+        put :update, {format: :json, :id => todo.to_param, :todo => new_attributes}, valid_session
         todo.reload
-        skip("Add assertions for updated state")
+        expect(todo.done).to be(true)
       end
 
       it "assigns the requested todo as @todo" do
         todo = Todo.create! valid_attributes
-        put :update, {:id => todo.to_param, :todo => valid_attributes}, valid_session
+        put :update, {format: :json, :id => todo.to_param, :todo => valid_attributes}, valid_session
         expect(assigns(:todo)).to eq(todo)
       end
 
       it "redirects to the todo" do
         todo = Todo.create! valid_attributes
-        put :update, {:id => todo.to_param, :todo => valid_attributes}, valid_session
-        expect(response).to redirect_to(todo)
+        put :update, {format: :json, :id => todo.to_param, :todo => valid_attributes}, valid_session
+        expect(response).to have_http_status(:success)
       end
     end
 
     context "with invalid params" do
       it "assigns the todo as @todo" do
         todo = Todo.create! valid_attributes
-        put :update, {:id => todo.to_param, :todo => invalid_attributes}, valid_session
+        put :update, {format: :json, :id => todo.to_param, :todo => invalid_attributes}, valid_session
         expect(assigns(:todo)).to eq(todo)
       end
 
       it "re-renders the 'edit' template" do
         todo = Todo.create! valid_attributes
-        put :update, {:id => todo.to_param, :todo => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, {format: :json, :id => todo.to_param, :todo => invalid_attributes}, valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -145,14 +152,14 @@ RSpec.describe TodosController, type: :controller do
     it "destroys the requested todo" do
       todo = Todo.create! valid_attributes
       expect {
-        delete :destroy, {:id => todo.to_param}, valid_session
+        delete :destroy, {format: :json, :id => todo.to_param}, valid_session
       }.to change(Todo, :count).by(-1)
     end
 
     it "redirects to the todos list" do
       todo = Todo.create! valid_attributes
-      delete :destroy, {:id => todo.to_param}, valid_session
-      expect(response).to redirect_to(todos_url)
+      delete :destroy, {format: :json, :id => todo.to_param}, valid_session
+      expect(response).to have_http_status(:no_content)
     end
   end
 
